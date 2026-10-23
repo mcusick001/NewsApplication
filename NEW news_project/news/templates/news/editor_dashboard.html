@@ -1,0 +1,48 @@
+{% extends 'news/base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Editor Dashboard</h2>
+        <div>
+            <a href="{% url 'create_newsletter' %}" class="btn btn-primary">Create Newsletter</a>
+            <a href="{% url 'manage_publishers' %}" class="btn btn-secondary">Manage Publishers</a>
+        </div>
+    </div>
+
+    <hr>
+
+    <h3>Pending Articles for Review</h3>
+    {% if articles %}
+        <ul class="list-group mb-4">
+            {% for article in articles %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>{{ article.title }}</strong> by {{ article.journalist.username }}
+                        <br><small class="text-muted">Publisher: {{ article.publisher.name }}</small>
+                    </div>
+                    <form action="{% url 'approve_article' article.id %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-muted">No pending articles awaiting review.</p>
+    {% endif %}
+
+    <h3 class="mt-5">Managed Newsletters</h3>
+    {% if newsletters %}
+        <ul class="list-group">
+            {% for newsletter in newsletters %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>{{ newsletter.title }} ({{ newsletter.publisher.name }})</span>
+                    <a href="{% url 'edit_newsletter' newsletter.id %}" class="btn btn-outline-primary btn-sm">Edit</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-muted">No newsletters created yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

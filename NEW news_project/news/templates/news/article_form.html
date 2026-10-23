@@ -1,0 +1,11 @@
+{% extends 'news/base.html' %}
+{% block content %}
+<h2>{% if article %}Edit Article{% else %}Create Article{% endif %}</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn">{% if article %}Update Article{% else %}Submit Article{% endif %}</button>
+</form>
+<br>
+<a href="{% url 'dashboard_redirect' %}">Cancel</a>
+{% endblock %}
