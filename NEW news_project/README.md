@@ -83,9 +83,9 @@ news_project/
 1. Clone the repository and navigate into the project directory:
    ```bash
 
-      git clone [https://github.com/mcusick001/News-Application.git]
+      git clone [https://github.com/mcusick001/NewsApplication.git]
 
-      cd News-Application
+      cd "NEW news_project"
    ```
 
 2. Set Up a Virtual Environment & Install Dependencies
