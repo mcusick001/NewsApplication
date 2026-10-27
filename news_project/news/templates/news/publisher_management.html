@@ -1,0 +1,16 @@
+{% extends 'news/base.html' %}
+{% block content %}
+<h2>Publisher Management</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn">Create Publisher</button>
+</form>
+
+<h3>Existing Publisher</h3>
+<ul>
+    {% for pub in publishers %}
+        <li>{{ pub.name }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
