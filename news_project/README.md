@@ -83,7 +83,6 @@ news_project/
 -----------------------------
 1. Clone the repository and navigate into the project directory:
    ```bash
-
       git clone [https://github.com/mcusick001/NewsApplication.git]
 
       cd "NewsApplication"
@@ -91,7 +90,6 @@ news_project/
 
 2. Set Up a Virtual Environment & Install Dependencies
    ```bash
-    
    python -m venv venv
 
    venv\Scripts\Activate.ps1
@@ -100,24 +98,27 @@ news_project/
    ```
 
 3. Configure the Environmental Variables
-   - Windows (Command Prompt):
-   ```cmd
-
-   copy .env.example .env
-   ```
-   - Open the newly created .env file in your code editor and update
-     the database username, password, and secret key to match your
-     local environment.
+   - This project uses python-dotenv to securely manage sensitive
+     credentials. Create a .env file in the root directory (alongside
+     manage.py)
+     ```
+     SECRET_KEY=django-insecure-your-secret-key-here
+     DEBUG=True
+     ALLOWED_HOST=127.0.0.1,localhost
+     DB_NAME=news_db
+     DB_USER=root
+     DB_PASSWORD=your_password
+     DB_HOST=127.0.0.1
+     DB_PORT=3306
+     ```
 
 4. Log into your MariaDB shell and create the database:
    ```bash
-
    mysql -u root -p
    ```
    - Once logged in, run the following SQL commands to create the
      database and user:
    ```sql
-
    CREATE DATABASE news_db;
    CREATE USER 'db_user'@'localhost' IDENTIFIED BY 'db_password';
    GRANT ALL PRIVILEGES ON news_db.* TO 'db_user'@'localhost';
@@ -127,22 +128,19 @@ news_project/
 
 5. Run Database Migrations
    - Apply the Django schema to your MariaDB instance:
-   ```bash:
-
+   ```bash
    python manage.py makemigrations
    python manage.py migrate
    ```
 
 6. Create an Administrator (Superuser) Account
-   ```bash:
-
+   ```bash
    python manage.py createsuperuser
    ```
    - Follow the prompts to enter username, email, and password.
 
 7. Run the deployment server
-   ```bash:
-
+   ```bash
    python manage.py runserver
    ```
    - Open your brower and navigate to [http://127.0.0.1:8000/]
@@ -165,8 +163,7 @@ news_project/
 The project includes a robust unit test suite (`APITestCase`) in `news/tests.py`
 covering authentication, RBAC permissions, webhook mocking, and subscription filtering.
 
-To run the automated tests:
+To run the automated tests
    ```bash
-
    python manage.py test news
    ```
