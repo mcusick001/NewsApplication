@@ -7,6 +7,9 @@ from django.contrib.auth.views import LogoutView
 from . import views
 
 urlpatterns = [
+    # Blank root path resolving http://localhost:8000/ to the article feed
+    path('', views.article_feed, name='article_feed'),
+
     # Include API routes under the api/ prefix
     path('api/', include('news.api_urls')),
 
