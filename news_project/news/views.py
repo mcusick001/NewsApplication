@@ -74,12 +74,10 @@ def editor_dashbaord(request):
     articles = Article.objects.filter(
         Q(publisher__in=assigned_publishers)
         | Q(publisher__isnull=True)
-        | Q(author=request.user)
     )  # Editors can manage all articles
     newsletters = Newsletter.objects.filter(
         Q(publisher__in=assigned_publishers)
         | Q(publisher__isnull=True)
-        | Q(author=request.user)
     )
     return render(request, 'news/editor_dashboard.html', {
         'articles': articles,
@@ -239,20 +237,6 @@ def delete_article(request, pk):
     return render(
         request, 'news/article_confirm_delete.html', {'article': article}
     )
-
-
-@login_required
-@role_required(['journalist'])
-def publish_independent_article(request, pk):
-    """Allows a journalist to directly publish their own independent
-    article."""
-    article = get_object_or_404(
-        Article, pk=pk, journalist=request.user, publisher__isnull=True
-    )
-    if request.method == 'POST':
-        article.approved = True
-        article.save()
-    return redirect('journalist_dashboard')
 
 
 @login_required

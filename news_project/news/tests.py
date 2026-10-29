@@ -23,13 +23,22 @@ class NewsAPITestCase(APITestCase):
         self.publisher = Publisher.objects.create(name="Daily Planet")
 
         self.reader = CustomUser.objects.create_user(
-            username="reader_user", password="password123", role="reader", email="r@news.com"  # noqa: E501
+            username="reader_user",
+            password="password123",
+            role="reader",
+            email="r@news.com"
             )
         self.journalist = CustomUser.objects.create_user(
-            username="journalist_user", password="password123", role="journalist", email="j@news.com"  # noqa: E501
+            username="journalist_user",
+            password="password123",
+            role="journalist",
+            email="j@news.com"
             )
         self.editor = CustomUser.objects.create_user(
-            username="editor_user", password="password123", role="editor", email="e@news.com"  # noqa: E501
+            username="editor_user",
+            password="password123",
+            role="editor",
+            email="e@news.com"
             )
 
         self.reader.subscriptions_publishers.add(self.publisher)
@@ -88,7 +97,11 @@ class NewsAPITestCase(APITestCase):
         self.client.force_authenticate(user=self.editor)
         detail_url = reverse('article-detail', args=[article.id])
 
-        response = self.client.patch(detail_url, {"approved": True}, format='json')  # noqa: E501
+        response = self.client.patch(
+            detail_url,
+            {"approved": True},
+            format='json'
+        )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         article.refresh_from_db()
@@ -117,7 +130,14 @@ class NewsAPITestCase(APITestCase):
     def test_approved_webhook_receiver(self):
         """Test 6: Validates internal webhook receiver endpoint response."""
         webhook_url = reverse('approved_webhook')
-        response = self.client.post(webhook_url, {"article_id": 1, "status": "approved"}, format='json')  # noqa: E501
+        response = self.client.post(
+            webhook_url,
+            {
+                "article_id": 1,
+                "status": "approved"
+            },
+            format='json'
+        )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['status'], "received")

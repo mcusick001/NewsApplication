@@ -27,11 +27,6 @@ urlpatterns = [
         name='delete_article'
     ),
     path(
-        'article/publish/<int:pk>/',
-        views.publish_independent_article,
-        name='publish_independent_article'
-    ),
-    path(
         'editor/approve/<int:pk>/',
         views.approve_article,
         name='approve_article'

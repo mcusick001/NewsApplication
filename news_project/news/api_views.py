@@ -61,6 +61,20 @@ class ArticleViewSet(viewsets.ModelViewSet):
         """
         serializer.save(journalist=self.request.user, approved=False)
 
+    def perform_update(self, serializer):
+        """
+        Prevents journalists from self-approving articles during API
+        updates. Only editors can change the approved status to True.
+        """
+        user = self.request.user
+        if user.role == 'journalist':
+            # If a journalist attempts to set approved=True, override it
+            # to False
+            validated_data = serializer.validated_data
+            if validated_data.get('approved') is True:
+                validated_data['approved'] = False
+        serializer.save()
+
 
 class PublisherViewSet(viewsets.ModelViewSet):
     """API endpoint for publisher management."""
